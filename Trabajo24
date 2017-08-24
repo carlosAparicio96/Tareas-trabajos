@@ -44,31 +44,61 @@ int numeroDistritoMasDiputados(struct servel *s);
 debe ser recorrido para encontrar el rut del candidato, si este se encuentra, se crea un nodo en el apartado de parlamentario
 y se agrega dicha informacion*/
 
-struct Persona *buscarCandidato(char *rut,struct nodoCandidato *head)
+struct Persona *buscarCandidato(char *rut,struct distrito *d)
 {
-    struct nodoCandidato *rec=head;
+    struct nodoCandidato *rec=d->candidato;
 
-    while(rec->sig != head)
+    if(rec != NULL)
     {
+        do
         if(rec->persona->rut == rut)
         {
-            return rec->persona;
-        }
+            return rec->persona
+
+        }while(rec->sig != head);
+
     }
 
     return NULL;
 };
 
-struct Persona *recorrerDistritos(struct servel *s,char *rut,struct nodoCandidato *head)
+struct Persona *recorrerDistritos(struct servel *s,char *rut)
 {
     int i;
+    struct Persona *nueva;
 
-    for(i=0;s->pLibreDistritos;i++)
+    for(i=0;i<s->pLibreDistritos;i++)
     {
         if(s->distritos[i]!=NULL)
         {
-            buscarCandidato(rut,head);
+            nueva=buscarCandidato(rut,d->candidato);
         }
     }
+
+    return nueva;
 };
 
+struct nodoParlamentario *crearNodoParlamentario(struct Persona *nuevo)
+{
+    struct nodoParlamentario *nuevoNodo=(struct nodoParlamentario*)malloc(sizeof(struct nodoParlamentario));
+
+    nuevoNodo->persona=nuevo;
+    nuevoNodo->sig=NULL;
+
+    return nuevoNodo;
+};
+
+int agregarDiputado(struct Servel *s,char *rut)
+{
+    struct nodoParlamentario *rec=s->camara->diputados;
+
+    while(rec->sig != NULL)
+    {
+        rec=rec->sig;
+    }
+
+    rec->sig=crearNodoParlamentario(recorrerDistritos(s,rut));
+
+    return 1;
+
+}
