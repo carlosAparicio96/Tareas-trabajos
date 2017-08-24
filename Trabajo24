@@ -1,0 +1,74 @@
+struct servel
+{
+    char *nombreDirector;
+    struct distrito **distritos;
+    int pLibreDistritos;
+    struct camaraDiputados *camara;
+};
+
+struct distrito
+{
+    int numero;
+    char *nombre;
+    struct nodoCandidato *candidato;
+};
+
+struct camaraDiputados
+{
+    char*nombrePresidente;
+    struct nodoParlamentario *diputados;
+};
+
+struct nodoCandidato
+{
+    struct Persona *persona;
+    struct nodoCandidato *ant,*sig;
+};
+
+struct nodoParlamentario
+{
+    struct Persona *persona;
+    struct nodoParlamentario *sig;
+};
+
+struct Persona
+{
+    char *nombre;
+    char *rut;
+};
+
+int agregarDiputado(struct servel *s,char *rut);
+int numeroDistritoMasDiputados(struct servel *s);
+
+/*Primero, se debe recorrer el arreglo de servel,y dentro de ese arreglo cada distrito que contenga informacion
+debe ser recorrido para encontrar el rut del candidato, si este se encuentra, se crea un nodo en el apartado de parlamentario
+y se agrega dicha informacion*/
+
+struct Persona *buscarCandidato(char *rut,struct nodoCandidato *head)
+{
+    struct nodoCandidato *rec=head;
+
+    while(rec->sig != head)
+    {
+        if(rec->persona->rut == rut)
+        {
+            return rec->persona;
+        }
+    }
+
+    return NULL;
+};
+
+struct Persona *recorrerDistritos(struct servel *s,char *rut,struct nodoCandidato *head)
+{
+    int i;
+
+    for(i=0;s->pLibreDistritos;i++)
+    {
+        if(s->distritos[i]!=NULL)
+        {
+            buscarCandidato(rut,head);
+        }
+    }
+};
+
