@@ -202,6 +202,32 @@ struct Cursos **ordenarAcentende(struct Curso **cursos,int cant)
 
 }
 
+float promedioCreditosCursados(struct Universidad *pucv)
+{	
+	struct nodoAlumno *rec;
+	int i,contCreditos,contGeneral=0,contAlumnos=0;
+	float promedio;
+	
+	while(rec!=NULL)
+	{
+		contCreditos=0
+		for(i=0;i<MAX;i++)
+		{
+			if((pucv->headAlum->alumnos->cursos[i]) != NULL)
+			{
+				contCreditos=(pucv->headAlum->alumnos->cursos[i]->creditos)+contCreditos;
+			}
+			
+		}
+		contAlumnos++;
+		rec=rec->sig;
+		contGeneral=contGeneral+contCreditos
+	}
+	promedio=contGeneral/contAlumnos;
+	
+	return promedio;
+	
+}
 
 
 struct Curso ** cursoBajoPromedioEvaluaciones(struct Universidad *pucv);
