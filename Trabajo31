@@ -1,0 +1,223 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Evaluacion
+{
+	char *fecha;
+	float promedio;
+};
+struct nodoEvaluacion
+{
+	struct Evaluacion;
+	struct nodoEvalucacion *sig;
+};
+struct Curso
+{
+	int sigla;
+	char *tipo;
+	char *nombre;
+	int creditos;
+	struct nodoEvaluacion *head;
+	struct Curso *sig;
+};
+struct Alumno
+{
+	char *rut;
+	char *nombre;
+	struct Curso **cursos;
+};
+struct nodoAlumno
+{
+	struct Alumno *alumnos;
+	struct nodoAlumno *sig;
+};
+struct Universidad
+{
+	char *rut;
+	struct Curso *cursos;
+	struct nodoAlumno *headAlum;
+};
+
+#define MAX 10
+
+int main()
+{
+	return 0;
+}
+
+
+int contarCreditosAlumno(struct Universidad *u)
+{
+    int cont=0;
+    struct nodoAlumno *rec;
+    rec=u->headAlum;
+
+    if(rec->alumnos!=NULL)
+    {
+        for(i=0;i<MAX;i++)
+        {
+            if(rec->alumnos->cursos[i]=!NULL)
+            {
+                cont=rec->alumnos->cursos[i]->creditos + cont;
+            }
+        }
+    }
+
+    return cont;
+}
+
+int contarCantidadCreditosTotal(struct Universidad *u)
+{
+    struct nodoAlumno *rec;
+    int suma;
+    rec=u->headAlum;
+
+    while(rec=!NULL)
+    {
+        suma=suma+contarCreditosAlumno(u);
+        rec=rec->sig;
+    }
+
+    return suma;
+}
+
+
+struct Curso *buscarcurso(int sigla, struct Curso *head){
+
+	struct Curso *rec=head;
+	do{
+		if(rec->sigla==sigla);
+		{
+			return rec;
+		}
+		rec=rec->sig;
+	}while(rec!=head);
+	return NULL;
+}
+
+int contarCantidadAlumnos(struct Universidad *u)
+{
+    struct nodoAlumno *rec;
+    int cont=0;
+    rec=u->headAlum;
+
+    while(rec=!NULL)
+    {
+        rec=rec->sig;
+        cont++;
+    }
+
+    return cont;
+}
+
+
+
+struct nodoALumno *listaALumnoConMasCreditos(struct Universidad *pucv)
+{
+
+}
+
+int contarCantidadAlumnosCurso(int sigla,struct Universidad *uni)
+{
+    struct nodoAlumno *rec;
+    int i,cont=0;
+    rec=uni->headAlum;
+
+    while(rec!=NULL)
+    {
+        for(i=0;i<MAX;i++)
+        {
+            if(rec->alumnos->cursos[i]!=NULL && rec->alumnos->cursos[i]->sigla==sigla)
+            {
+                cont++;
+                break;
+            }
+        }
+        rec=rec->sig;
+    }
+    return cant;
+}
+
+struct Curso **cursosMasAlumnos(struct Universidad *pucv,int cant)
+{
+	struct Curso *cursos=(struct Curso *)malloc(cant*sizeof(struct Curso *));
+	int alumnos,i;
+	struct Curso *head=pucv->cursos;
+	struct Curso *rec=head;
+
+	do{
+
+		alumnos=contarAlumnosCurso(rec);
+
+		for(i=0;i<cant;i++)
+		{
+			if(curos[i]==NULL)
+			{
+				cursos[i]=rec;
+			}
+			else if(alumnos > contarAlumnosCurso(cursos[i]))
+			{
+				cursos[i]=rec;
+			}
+
+
+		}
+		rec=rec->sig;
+
+	}while(rec!=head);
+
+	cursos=OrdenarAsendente(cursos,cant);
+
+	return cursos;
+
+}
+
+struct Cursos **ordenarAcentende(struct Curso **cursos,int cant)
+{
+	struct Curso *aux=cursos[1];
+	struct Curso *aux2;
+	int i,numero;
+	int k=0;
+
+	while(k<cant)
+	{
+		for(i=k;i<cant;i++)
+		{
+			if((contarAlumnosCurso(cursos[i+1])) >= (contarAlumnosCurso(cursos[i])))
+			{
+				aux=cursos[i+1];
+			}
+			else
+			{
+				aux=cursos[i];
+			}
+
+		}
+		cursos[k]=aux;
+		k++;
+	}
+
+	return cursos;
+
+}
+
+
+
+struct Curso ** cursoBajoPromedioEvaluaciones(struct Universidad *pucv);
+//retorna el arrelgo de punteros a los cursos que su promedio de evaluaciones es menor al promedio de todos los cursos
+
+void ordenarCursosAscendente(struct Cursos **head);//este hago yo
+//ordena los cursos en la lista de forma ascendente segun el promedio obtenido en sus evaluaciones
+
+int *siglasCursosFusionados(struct Universidad *pucv ,char* tipo);//este haces tu
+//elimina todos los cursos (dado tipo) que su cantidad de alumnos es menos al 60% del promedio de alumnos de curso de se tipo.
+//debe redistribuir los alumnos de los cursos a eliminar,considere los creditos
+
+struct nodoALumno *listaALumnoConMasCreditos(struct Universidad *pucv)
+//genera una lista s.e. con aquellos alumnos que la suma de creditos, es un 40% menr al promedio de creditos de todos los alumnos de la U.
+
+void BalancearCursos(struct Universidad *pucv)
+//asegura q todos los cursos de una mismo tipo y credito no tenga mas de 1 alumno de diferencia
+
+
